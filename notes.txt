@@ -1,0 +1,5 @@
+guest_satisfaction_overall
+dist
+realSum
+
+standaryzacja, korelacja, estymator jadrowy (rozne h, zwłaszcza zmniejszając)
