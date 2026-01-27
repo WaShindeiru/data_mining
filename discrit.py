@@ -194,6 +194,23 @@ def assign_districts_to_csv(input_csv, output_csv, district_data):
     print(f"Successfully saved data with districts to '{output_csv}'")
     print(f"Districts assigned: {df['district'].value_counts().sort_index()}")
 
+def save_districts_to_json(district_data, filename):
+    """Save district data to JSON file, excluding index 0"""
+    json_data = []
+
+    for district_dict in district_data[1:]:
+        if district_dict and 'district_id' in district_dict:
+            district_entry = {
+                'district_id': district_dict['district_id'],
+                'points': district_dict['points'].tolist() if hasattr(district_dict['points'], 'tolist') else list(
+                    district_dict['points'])
+            }
+            json_data.append(district_entry)
+
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(json_data, f, indent=2)
+
+    print(f"Successfully saved district data to '{filename}'")
 
 if __name__ == "__main__":
     election_data = read_json_file("./data/elections-europeennes-2024.json")
@@ -201,6 +218,10 @@ if __name__ == "__main__":
     parsed_data = parse_district_data(election_data)
 
     removed_data = remove_connections(parsed_data)
+    
+    save_districts_to_json(removed_data, "data/districts.json")
 
-    assign_districts_to_csv("data/paris_weekdays.csv", "data/paris_weekdays_district.csv", removed_data)
-    assign_districts_to_csv("data/paris_weekends.csv", "data/paris_weekends_district.csv", removed_data)
+    # print(removed_data[1])
+
+    # assign_districts_to_csv("data/paris_weekdays.csv", "data/paris_weekdays_district.csv", removed_data)
+    # assign_districts_to_csv("data/paris_weekends.csv", "data/paris_weekends_district.csv", removed_data)
