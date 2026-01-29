@@ -13,7 +13,7 @@ class Square:
     self.color = ""
 
 if __name__ == "__main__":
-  label = "attr_index_norm"
+  label = "metro_dist"
 
   paris_weekdays = pd.read_csv('./data/paris_weekdays.csv')
   paris_weekends = pd.read_csv('./data/paris_weekends.csv')
